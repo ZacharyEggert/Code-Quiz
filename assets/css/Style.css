@@ -1,0 +1,13 @@
+#highscores {
+    float: left;
+}
+
+#timer {
+    float: right;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
