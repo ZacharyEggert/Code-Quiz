@@ -1,5 +1,5 @@
 
-const timeAlotted = 10;
+const timeAlotted = 60;
 const timeAlottedms = timeAlotted * 1000;
 const oneSecond = 1000;
 
@@ -8,6 +8,9 @@ const oneSecond = 1000;
  * Tracks which questions have been answered already
  */
 var qTracker = [];
+
+var shouldEnd = false;
+var timeRemaining = timeAlotted;
 
 
 //class definitions
@@ -25,29 +28,19 @@ class highScore {
 }
 
 
-
 //arrays for game questions
 /**
- * ["QUESTION",[["ANSWER1", "ANSWER2", "ANSWER3", "ANSWER4"], CORRECTNUM]]
+ * ["QUESTION",[["ANSWER1", "ANSWER2", "ANSWER3", "ANSWER4"], CORRECTNUM]] | ["",[["", "", "", ""], ]]
  */
 var gameQuestions = [
     ["Where do you put the JavaScript in an HTML file?",[["Top of Head", "Top of Body", "Bottom of Head", "Bottom of Body"], 4]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
-    ["",[["", "", "", ""], ]],
+    ["What can an array not hold?",[["numbers", "strings", "booleans", "Arrays can hold anything!"], 4]],
+    ["What is the global scope for an HTML implementation of JS?",[["browser", "window", "slide", "this"], 2]],
+    ["What color is brian's hair?",[["red", "green", "brown", "blonde"], 3]],
+    ["How do we open the chrome dev console?",[["shift+alt+j", "alt+F4", "ctrl+i", "ctrl+shift+i"], 4]]
 ]
 
-var highScoreList = [new highScore("EXA", 20), new highScore("MPL", 15)]
+var highScoreList = [["EXA", 20], ["MPL", 15]]
 
 
 
@@ -69,7 +62,7 @@ gameEl.setAttribute("id", "game");
 var questionEl = document.createElement("h3");
 questionEl.setAttribute("id", "question");
 
-var answerEl = document.createElement("ol");
+var answerEl = document.createElement("ul");
 answerEl.setAttribute("id", "answers");
 
 var answer1 = document.createElement("li");
@@ -86,16 +79,32 @@ gameEl.appendChild(questionEl);
 gameEl.appendChild(answerEl);
 /** END OF GAME SCREEN CREATION */
 
+
+
 /** Create Post Game Screen */
 var postGameEl = document.createElement("div");
 postGameEl.setAttribute("id", "post-game");
 
+var displayScore = document.createElement("h1");
+displayScore.setAttribute("id", "score-display")
 
+var initialsBox = document.createElement("textarea");
+initialsBox.setAttribute("id", "initials-area");
+initialsBox.setAttribute("placeholder", "Initials Here");
+initialsBox.setAttribute("maxlength", "3");
 
+var submitButton = document.createElement("button");
+submitButton.setAttribute("id", "submit-button");
+submitButton.innerHTML = "SUBMIT SCORE";
 
-
+postGameEl.appendChild(displayScore);
+postGameEl.appendChild(initialsBox);
+postGameEl.appendChild(submitButton);
 /** END OF POST GAME SCREEN CREATION */
 
+/** Create Score List Screen */
+var scoreListEl = document.createElement("div");
+scoreListEl.setAttribute("id", "score-list");
 
 
 
@@ -116,18 +125,24 @@ function setTimerElement(time) {
 /**
  *  @param {highScore} hs Highscore to add to list.
  */
-function submitHighScore(hs) {
+/**function submitHighScore(hs) {
     highScoreList.concat(hs);
+}*/
+function submitHighScore() {
+    var newHS = [[initialsBox.value, parseInt(displayScore.innerHTML)]];
+    highScoreList = highScoreList.concat(newHS);
+    displayScoreList();
+
 }
 
 /** 
  * @param {HTMLElement} element Element to toggle on or off.
  */
-function toggleHide(element) {
+function toggleHide(element, bool) {
 
     //console.log(element.getAttribute("style"));
 
-    if(element.getAttribute("style") == "display: none;"){
+    if(bool){
 
         element.setAttribute("style", "display:inline-block;");
         //console.log(`element ${element.tagName} unhidden`);
@@ -153,6 +168,7 @@ function setGameQuestion(qNum) {
     answer3.innerHTML = gameQuestions[qNum][1][0][2];
     answer4.innerHTML = gameQuestions[qNum][1][0][3];
     qTracker += qNum;
+    console.log(qTracker);
 
 }
 
@@ -163,32 +179,146 @@ function setGameQuestion(qNum) {
 function endGame(score){
 
 
-    console.log("score: "+ score);
-    console.log("this will switch the screen to something else")
-    console.log("Game Ended")
+    displayScore.innerHTML = score;
+    gameEl.replaceWith(postGameEl);
+
+}
+
+function displayScoreList() {
+
+    var superListEl = document.createElement("ul");
+    superListEl.setAttribute("id", "super-score-list");
+    scoreListEl.appendChild(superListEl);
+
+    for(var i = 0; i<highScoreList.length; i++){
+        var scoreset =  document.createElement("li");
+        var scoresetList =  document.createElement("ul");
+        scoreset.appendChild(scoresetList);
+        scoreListEl.appendChild(scoreset);
+        for(var j = 0; j<2;j++){
+            var scoreData =  document.createElement("li");
+            scoreData.innerHTML = highScoreList[i][j]
+            scoresetList.appendChild(scoreData);
+        }
+    }
+
+
+    var playButton = document.createElement("button");
+    playButton.setAttribute("id", "play-button");
+    playButton.innerHTML = "play again?"
+    playButton.addEventListener("click", function(){
+        contentSpace.innerHTML = "";
+        scoreListEl.innerHTML = "";
+        shouldEnd = false;
+        game();
+    })
+    scoreListEl.appendChild(playButton);
+
+    postGameEl.replaceWith(scoreListEl);
+}
+
+/**
+ * 
+ * @param {number} limit 
+ */
+function randomInt(limit) {
+    return Math.floor(Math.random() * limit);
 }
 
 
 
 
+function checkAnswer1(){
+    if(gameQuestions[qTracker[qTracker.length - 1]][1][1] === 1){
+        var loop = true;
+        console.log("correct answer");
+        if(qTracker.length === gameQuestions.length){shouldEnd = true;}else{
+        while(loop){
+            var x = randomInt(gameQuestions.length);
+            if(!qTracker.includes(x)){
+                setGameQuestion(x);
+                loop = false;
+            }
+        }}
+    }else{
+        timeRemaining -= 5;
+        setTimerElement(timeRemaining);
+    }
+}
+function checkAnswer2(){
+    if(gameQuestions[qTracker[qTracker.length - 1]][1][1] === 2){
+        var loop = true;
+        console.log("correct answer");
+        if(qTracker.length === gameQuestions.length){shouldEnd = true;}else{
+        while(loop){
+            var x = randomInt(gameQuestions.length);
+            if(!qTracker.includes(x)){
+                setGameQuestion(x);
+                loop = false;
+            }
+        }}
+    }else{
+        timeRemaining -= 5;
+        setTimerElement(timeRemaining);
+    }
+}
+function checkAnswer3(){
+    if(gameQuestions[qTracker[qTracker.length - 1]][1][1] === 3){
+        var loop = true;
+        console.log("correct answer");
+        if(qTracker.length === gameQuestions.length){shouldEnd = true;}else{
+        while(loop){
+            var x = randomInt(gameQuestions.length);
+            if(!qTracker.includes(x)){
+                setGameQuestion(x);
+                loop = false;
+            }
+        }}
+    }else{
+        timeRemaining -= 5;
+        setTimerElement(timeRemaining);
+    }
+}
+function checkAnswer4(){
+    if(gameQuestions[qTracker[qTracker.length - 1]][1][1] === 4){
+        var loop = true;
+        console.log("correct answer");
+        if(qTracker.length === gameQuestions.length){shouldEnd = true;}else{
+        while(loop){
+            var x = randomInt(gameQuestions.length);
+            if(!qTracker.includes(x)){
+                setGameQuestion(x);
+                loop = false;
+            }
+        }}
+    }else{
+        timeRemaining -= 5;
+        setTimerElement(timeRemaining);
+    }
+}
 
+
+answer1.addEventListener("click", checkAnswer1);
+answer2.addEventListener("click", checkAnswer2);
+answer3.addEventListener("click", checkAnswer3);
+answer4.addEventListener("click", checkAnswer4);
+
+submitButton.addEventListener("click", submitHighScore);
 
 
 
 function game() {
 
     // reset the game state
-    var timeRemaining = timeAlotted;
-    var score = 0;
+    timeRemaining = timeAlotted;
     qTracker = [];
 
     contentSpace.appendChild(gameEl)
 
     setTimerElement(timeRemaining);
-    toggleHide(timerElement);
+    toggleHide(timerElement, true);
 
-    setGameQuestion(0);
-    console.log(qTracker);
+    setGameQuestion(randomInt(gameQuestions.length));
 
     var gameInterval = setInterval(function(){
 
@@ -201,20 +331,23 @@ function game() {
 
             clearInterval(gameInterval);
             alert("Time's Up!");
-            toggleHide(timerElement);
-            endGame(score);
+            toggleHide(timerElement, false);
+            endGame(0);
 
         }
 
-        if(qTracker.length === gameQuestions.length){
-            clearInterval(gameInterval);
-            alert("All Done!");
-            toggleHide(timerElement);
-            endGame(score+10);
-        }
     }, oneSecond);
 
-    
+    var gamePlayInterval = setInterval(function(){
+        if(qTracker.length === gameQuestions.length && shouldEnd){
+            alert("All Done!");
+            clearInterval(gamePlayInterval);
+            clearInterval(gameInterval);
+            toggleHide(timerElement, false);
+            endGame(timeRemaining);
+
+        }        
+    }, 20);
 
 
 
