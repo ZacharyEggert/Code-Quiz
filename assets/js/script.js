@@ -40,16 +40,7 @@ try {
     if (hsList === null){
         hsList = [["NAM", 15], ["XMP", 20]];
     }
-} catch (error) {
-    
-}
-
-
-
-
-
-
-
+} catch (error) {}
 /**  ---------------E-V-E-N-T---L-I-S-T-E-N-E-R-S---------------  */
 
 /** HIGHSCORE PAGE LINK */
@@ -89,8 +80,6 @@ scoreSubmitButton.addEventListener("click", function(event){
     renderHS();
     switchScreen(hsScreen);
 })
-
-
 
 /**  -----------------------------------------------------------  */
 
@@ -139,8 +128,6 @@ function newQuestion(){
             testAnswerList.querySelectorAll("button")[i].textContent = QUESTIONLIST[questionActive][1][0][i];
             
         }
-
-
     }
 }
 
@@ -159,19 +146,10 @@ function submitHighScore() {
     highScoreList = highScoreList.concat(newHS);
 }
 
-
 /**  -----------------------------------------------------------  */
 
 
-
-
-
-
 function runGame() {
-
-
-    
-
 
     questionsServed = []
     playAgain.setAttribute("style", "display: none;")
@@ -201,8 +179,3 @@ function runGame() {
     newQuestion()
 
 }
-
-
-
-
-
