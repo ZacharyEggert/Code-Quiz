@@ -1,0 +1,23 @@
+ul {
+    list-style: none;
+
+}
+
+ul.horiz, li.horiz{
+    display: inline;
+    margin: 1rem;
+    line-height: 1.5rem;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 10vh;
+    align-items: center;
+    align-content: space-around;
+}
+
+header *{
+    flex: 0 0 20vw; 
+}
