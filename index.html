@@ -4,23 +4,72 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Quiz</title>
+    <title>Coding Quiz</title>
 
-    <link rel="stylesheet" href="assets/css/Style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 <body>
-    <header class="clearfix">
-
-        <h2 id="highscores" >View Highscores</h2>
-        <h2 id="timer" style="display: none;">Time: Xs</h2>
-
-        <br/>
+    <header>
+        <h3 class="hs-link">High Scores</h3>
+        <h3 class="play-again" style="display: none;">Play</h3>
+        <h3 class="timer" style="display: none;"></h3>
     </header>
 
-    <main id="content">
+    
+    
+    <div class="open-screen" >
 
-    </main>
-    <script src="assets/js/Script.js"></script>
+        <h1>Click me to take the quiz!</h1>
+
+    </div>
+
+
+
+    <div class="test-screen" style="display: none;">
+
+        <h2>dummy question?</h2>
+
+        <ul class="horiz">
+            <li class="horiz"><button> </button></li>
+            <li class="horiz"><button> </button></li>
+            <li class="horiz"><button> </button></li>
+            <li class="horiz"><button> </button></li>
+        </ul>
+
+    </div>
+
+
+
+    <div class="score-screen" style="display: none;">
+
+        <form>
+
+            <h1 class="score-display"></h1>
+
+            <input class="score-initials" type="text" maxlength="3" name="Initials" required>
+
+            <button class="score-submit">Click to submit score!</button>
+
+
+        </form>
+
+    </div>
+
+
+
+    <div class="hs-screen" style="display: none;">
+
+        <ul class="hs-list">
+            <li></li>
+            <li></li>
+        </ul>
+
+    </div>
+
+    
+
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
