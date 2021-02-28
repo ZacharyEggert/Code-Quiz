@@ -24,10 +24,12 @@ const QUESTIONLIST = [
     ["What is the global scope for an HTML implementation of JS?",[["browser", "window", "slide", "this"], "window"]],
     ["What color is brian's hair?",[["red", "green", "brown", "blonde"], "brown"]],
     ["How do we open the chrome dev console?",[["shift+alt+j", "alt+F4", "ctrl+i", "ctrl+shift+i"], "ctrl+shift+i"]]
+    ["How many questions are necessary before I consider this done?",[["4", "6", "3", "9"], "6"]]
+
 ];
 var questionsServed = [];
 var questionActive;
-
+var endMe = false
 
 
 const TIMEALOTTED = 10;
@@ -40,16 +42,7 @@ try {
     if (hsList === null){
         hsList = [["NAM", 15], ["XMP", 20]];
     }
-} catch (error) {
-    
-}
-
-
-
-
-
-
-
+} catch (error) {}
 /**  ---------------E-V-E-N-T---L-I-S-T-E-N-E-R-S---------------  */
 
 /** HIGHSCORE PAGE LINK */
@@ -90,10 +83,6 @@ scoreSubmitButton.addEventListener("click", function(event){
     switchScreen(hsScreen);
 })
 
-
-
-/**  -----------------------------------------------------------  */
-
 /**  ---------------------F-U-N-C-T-I-O-N-S---------------------  */
 
 function renderHS(){
@@ -118,13 +107,15 @@ function renderHS(){
 }
 
 function renderScore(){
-    scoreDisplay.innerHTML = "you scored " + timeLeft;
+    scoreDisplay.innerHTML = "YOU SCORED " + timeLeft;
 }
 
 function newQuestion(){
     if (questionsServed.length === QUESTIONLIST.length) {
         // clearInterval(timerInterval);
+        endMe = true;
         renderScore();
+        timerDisp.setAttribute("style", "display: none;")
         switchScreen(scoreScreen);
     }else{
         var qnum = Math.floor(Math.random() * QUESTIONLIST.length);
@@ -139,8 +130,6 @@ function newQuestion(){
             testAnswerList.querySelectorAll("button")[i].textContent = QUESTIONLIST[questionActive][1][0][i];
             
         }
-
-
     }
 }
 
@@ -159,33 +148,23 @@ function submitHighScore() {
     highScoreList = highScoreList.concat(newHS);
 }
 
-
 /**  -----------------------------------------------------------  */
 
 
-
-
-
-
 function runGame() {
-
-
-    
-
 
     questionsServed = []
     playAgain.setAttribute("style", "display: none;")
     timeLeft = TIMEALOTTED;
     timerDisp.innerHTML = timeLeft;
     timerDisp.setAttribute("style", "")
-
+    endMe = false;
     
 
     var timerInterval = setInterval(function(){
 
-        if (questionsServed.length === QUESTIONLIST.length) {
+        if (endMe) {
             clearInterval(timerInterval);
-            timerDisp.setAttribute("style", "display: none;")
         }else if (timeLeft > 0) {
             timeLeft--;
             timerDisp.innerHTML = timeLeft;
@@ -201,8 +180,3 @@ function runGame() {
     newQuestion()
 
 }
-
-
-
-
-
