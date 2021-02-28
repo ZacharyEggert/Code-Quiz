@@ -34,7 +34,7 @@ var endMe = false
 const TIMEALOTTED = 15;
 var timeLeft;
 
-var hsList = [["NAM", 15], ["XMP", 20]];
+var hsList = [["NAM", 6], ["XMP", 8]];
 
 try {
     hsList = JSON.parse(localStorage.getItem("hsList"));
