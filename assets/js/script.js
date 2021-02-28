@@ -23,9 +23,8 @@ const QUESTIONLIST = [
     ["What can an array not hold?",[["numbers", "strings", "booleans", "Arrays can hold anything!"], "Arrays can hold anything!"]],
     ["What is the global scope for an HTML implementation of JS?",[["browser", "window", "slide", "this"], "window"]],
     ["What color is brian's hair?",[["red", "green", "brown", "blonde"], "brown"]],
-    ["How do we open the chrome dev console?",[["shift+alt+j", "alt+F4", "ctrl+i", "ctrl+shift+i"], "ctrl+shift+i"]]
+    ["How do we open the chrome dev console?",[["shift+alt+j", "alt+F4", "ctrl+i", "ctrl+shift+i"], "ctrl+shift+i"]],
     ["How many questions are necessary before I consider this done?",[["4", "6", "3", "9"], "6"]]
-
 ];
 var questionsServed = [];
 var questionActive;
