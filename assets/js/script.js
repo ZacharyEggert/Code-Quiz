@@ -31,7 +31,7 @@ var questionActive;
 var endMe = false
 
 
-const TIMEALOTTED = 10;
+const TIMEALOTTED = 15;
 var timeLeft;
 
 var hsList = [["NAM", 15], ["XMP", 20]];
