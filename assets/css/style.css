@@ -1,3 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 ul {
     list-style: none;
 
@@ -10,14 +16,49 @@ ul.horiz, li.horiz{
 }
 
 header{
+    background-color: lightgray;
     display: flex;
     flex-direction: row;
     width: 100vw;
-    height: 10vh;
+    height: auto;
+    justify-content: space-between;
     align-items: center;
-    align-content: space-around;
+    padding: .5rem;
 }
 
 header *{
-    flex: 0 0 20vw; 
+    flex: 1; 
+    text-align: center;
+}
+
+body {
+    background-color: papayawhip
+}
+
+body div{
+    width: 60vw;
+    margin: 20vh 20vw;
+    text-align: center;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    margin: 1rem;
+    font-size: 2rem;
+}
+
+.hs-list{
+    border: solid black 2px ;
+    border-radius: .25rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@media screen and (min-width: 700px){
+    .hs-list {
+        width: 30vw;
+        margin: 0 15vw;
+    }
 }
