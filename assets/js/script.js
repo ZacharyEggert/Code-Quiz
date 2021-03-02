@@ -158,8 +158,6 @@ function runGame() {
     timerDisp.innerHTML = timeLeft;
     timerDisp.setAttribute("style", "")
     endMe = false;
-    
-
     var timerInterval = setInterval(function(){
 
         if (endMe) {
@@ -172,10 +170,6 @@ function runGame() {
             alert("OUT OF TIME");
             timerDisp.setAttribute("style", "display: none;")
         }
-
-
     }, 1000)
-
     newQuestion()
-
 }
